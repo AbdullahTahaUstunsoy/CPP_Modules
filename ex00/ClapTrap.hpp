@@ -7,9 +7,9 @@ class ClapTrap
 {
     private:
         std::string _name;
-        int _energy_points = 10; //bunlara atama olmayacağı için "_" ile başlatmadım
-        int _hit_points = 10;
-        int _attack_damage = 0;
+        int _hit_points;
+        int _energy_points; //bunlara atama olmayacağı için "_" ile başlatmadım
+        int _attack_damage;
     public:
         ClapTrap();
         ClapTrap(std::string name);
@@ -19,6 +19,9 @@ class ClapTrap
         void attack(const std::string& target);
         void takeDamage(unsigned int amount);
         void beRepaired(unsigned int amount);
+        int getHitPoints() const;
+        int getEnergyPoints() const;
+        int getAttackDamage() const;
 };
 
 #endif

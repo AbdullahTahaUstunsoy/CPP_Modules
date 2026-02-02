@@ -3,24 +3,33 @@
 
 ClapTrap::ClapTrap()
 {
+    std::cout << "Default constructor called." << std::endl;
 }
 
-ClapTrap::ClapTrap(std::string name) : _name(name)
+ClapTrap::ClapTrap(std::string name) : _name(name), _hit_points(10), _energy_points(10), _attack_damage(0)
 {
-    std::cout << "Default constructor called." << std::endl;
+    std::cout << "Constructor called for " << _name << std::endl;
 }
 
 ClapTrap::ClapTrap(const ClapTrap& ref)
 {
     std::cout << "Copy constructor called." << std::endl;
     _name = ref._name;
+    _hit_points = ref._hit_points;
+    _energy_points = ref._energy_points;
+    _attack_damage = ref._attack_damage;
 }
 
 ClapTrap& ClapTrap::operator=(const ClapTrap& ref)
 {
     std::cout << "Copy assignment operator called." << std::endl;
     if(this != &ref)
+    {
         _name = ref._name;
+        _hit_points = ref._hit_points;
+        _energy_points = ref._energy_points;
+        _attack_damage = ref._attack_damage;
+    }
     return *this;
 }
 
@@ -29,31 +38,56 @@ ClapTrap::~ClapTrap()
     std::cout << "Destructor called" << std::endl;
 }
 
-void ClapTrap::attack(const std::string& target) //Attacking and repairing each cost 1 energy point.
+void ClapTrap::attack(const std::string& target) //Attacking and repairing each cost 1 energy point. //ClapTrap can’t do anything if it has no hit points or energy points left.
 {
-    if(_energy_points != 0 && _hit_points != 0)
+    if(_energy_points > 0 && _hit_points > 0)
     {
-        std::cout << "ClapTrap " << _name << "attacks" << target << ", causing" << 1 << "points of damage"  << std::endl;
-        _energy_points--;
+        std::cout << "ClapTrap " << _name << " attacks " << target << ", causing " << 0 << " points of damage"  << std::endl; //attack damage 0 verilmiş onun için de buraya 0 yazılmalı diye düşündüm
+        _energy_points--;  
     }
-    else if (_energy_points == 0 && _hit_points != 0)
+    else if (_energy_points == 0 && _hit_points > 0)
         std::cout << "ClapTrap " << _name << "has no energy" << std::endl;
-    else if (_hit_points == 0 && _energy_points != 0)
+    else if (_hit_points == 0 && _energy_points > 0)
         std::cout << "ClapTrap " << _name << "has no hit points" << std::endl;
     else    
-        std::cout << "ClapTrap " << _name << "has no energy points and hit points" << std::endl;
+        std::cout << "ClapTrap " << _name << "has no energy points and hit points to attack" << std::endl;
 }
 
-void ClapTrap::takeDamage(unsigned int amount)
+void ClapTrap::takeDamage(unsigned int amount) 
 {
-
+    if(_hit_points > 0)
+    {
+        _hit_points -= amount;
+        if(_hit_points <= 0)
+            _hit_points = 0;
+        std::cout << "ClapTrap " << _name << " takes damage of " << amount << " points." << std::endl;
+    }
 }
 
-void ClapTrap::beRepaired(unsigned int amount) //When ClapTrap repairs itself, it regains <amount> hit points.
+void ClapTrap::beRepaired(unsigned int amount) //When ClapTrap repairs itself, it regains <amount> hit points. //Hit points gidince repair olması mantıklı ama bu egzersizde hiçbir zaman hit points in gideceği bir durum yok // ClapTrap can’t do anything if it has no hit points or energy points left.
 {
-    std::cout << "ClapTrap " << _name << " is repaired" << amount << " point." << std::endl;
-    if(_hit_points >= 0 && _hit_points < 10)
-        _hit_points++;
+    if(_energy_points > 0 && (_hit_points >= 0)) //Dolayısıyla bu kısım biraz göstermelik //_hit_points'e bakılmalı mı burada
+    {
+        std::cout << "ClapTrap " << _name << " is repaired " << amount << " point." << std::endl;
+        _hit_points+= amount;
+        _energy_points--;
+    }
     else
-        std::cout << "hit point full." << std::endl;
+        std::cout << "no energy or hit points to repair" << std::endl;
+}
+
+
+int ClapTrap::getHitPoints() const
+{
+    return _hit_points;
+}
+
+int ClapTrap::getEnergyPoints() const
+{
+    return _energy_points;
+}
+
+int ClapTrap::getAttackDamage() const
+{
+    return _attack_damage;
 }
