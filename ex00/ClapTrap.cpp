@@ -51,61 +51,42 @@ void ClapTrap::attack(const std::string& target) //Attacking and repairing each 
 
 void ClapTrap::takeDamage(unsigned int amount) 
 {
-    if(_hit_points > 0)
+    if(_hit_points == 0)
     {
-        _hit_points -= amount;
-        if(_hit_points <= 0)
-            _hit_points = 0;
-        std::cout << "ClapTrap " << _name << " takes damage of " << amount << " points." << std::endl;
+        std::cout << "ClapTrap " << _name << " is already dead!" << std::endl;
+        return;
     }
+    if(amount >= _hit_points > 0)
+        _hit_points = 0;
+    else
+        _hit_points -= amount;
+    std::cout << "ClapTrap " << _name << " takes damage of " << amount << " points." << std::endl;
 }
 
 void ClapTrap::beRepaired(unsigned int amount) //When ClapTrap repairs itself, it regains <amount> hit points. //Hit points gidince repair olması mantıklı ama bu egzersizde hiçbir zaman hit points in gideceği bir durum yok // ClapTrap can’t do anything if it has no hit points or energy points left.
 {
-    if(_energy_points > 0 && _hit_points >= 0) //Dolayısıyla bu kısım biraz göstermelik //_hit_points'e bakılmalı mı burada
+    if(_energy_points > 0 && _hit_points > 0) //Dolayısıyla bu kısım biraz göstermelik //_hit_points'e bakılmalı mı burada
     {
         std::cout << "ClapTrap " << _name << " is repaired " << amount << " point." << std::endl;
         _hit_points+= amount;
         _energy_points--;
     }
     else
-        std::cout << "ClapTrap no energy or hit points to repair" << std::endl;
+        std::cout << "ClapTrap " << _name << "can't repair (no energy or hit points left)" << std::endl;
 }
 
 
 int ClapTrap::getHitPoints() const
 {
-    //std::cout << "ClapTrap's hit points amount:" << std::endl; //bu mesajlara gerek olmayabilir
     return _hit_points;
 }
 
 int ClapTrap::getEnergyPoints() const
 {
-    //std::cout << "ClapTrap's energy_points amount:" << std::endl;
     return _energy_points;
 }
 
-int ClapTrap::getAttackDamage() const
+int ClapTrap::getAttackDamage() const //şuan sadece bu getter'ı kullandım dolayısıyla diğer getterları silebilirim
 {   
-    //std::cout << "ClapTrap's damaged amount:";
     return _attack_damage;
-}
-
-
-void ClapTrap::setHitPoints(int hit_points)
-{
-    //std::cout << "ClapTrap's hit points assigned." << std::endl;
-    _hit_points = hit_points;
-}
-
-void ClapTrap::setEnergyPoints(int energy_points)
-{
-    //std::cout << "ClapTrap's energy points assigned." << std::endl;
-    _energy_points = energy_points;
-}
-
-void ClapTrap::setAttackDamage(int attack_damage)
-{
-    //std::cout << "ClapTrap's attack damage assigned." << std::endl;
-    _attack_damage = attack_damage;
 }
