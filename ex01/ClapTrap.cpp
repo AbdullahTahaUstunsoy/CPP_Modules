@@ -34,7 +34,7 @@ ClapTrap::~ClapTrap()
     std::cout << "Destructor called for ClapTrap " << _name << std::endl;
 }
 
-void ClapTrap::attack(const std::string& target) //Attacking and repairing each cost 1 energy point. //ClapTrap can’t do anything if it has no hit points or energy points left.
+void ClapTrap::attack(const std::string& target)
 {
     if(_energy_points > 0 && _hit_points > 0)
     {
@@ -63,7 +63,7 @@ void ClapTrap::takeDamage(unsigned int amount)
     std::cout << "ClapTrap " << _name << " takes damage of " << amount << " points." << std::endl;
 }
 
-void ClapTrap::beRepaired(unsigned int amount) //When ClapTrap repairs itself, it regains <amount> hit points.
+void ClapTrap::beRepaired(unsigned int amount)
 {
     if(_energy_points > 0 && _hit_points > 0)
     {

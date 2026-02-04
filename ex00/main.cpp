@@ -1,6 +1,6 @@
 #include "ClapTrap.hpp"
 #include <iostream>
-//hit points, energy points, attack damage değişkenlerini unsigned tanımlamak zorunda mıyım ? ve void attack(const std::string& target); burada const olmak zorunda mı referans zaten değiştirilemez
+
 int main()
 {
     ClapTrap ct1("CT-One");

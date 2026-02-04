@@ -14,7 +14,7 @@ ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
     std::cout << "Constructor called for ScavTrap." << std::endl;
 }
 
-ScavTrap::ScavTrap(const ScavTrap& ref) : ClapTrap(ref) //Base class’a ait üyeler base class copy constructor’ında kopyalanır. Derived class, base’in içini tekrar kopyalamaz.
+ScavTrap::ScavTrap(const ScavTrap& ref) : ClapTrap(ref)
 {
     std::cout << "Copy constructor called for ScavTrap" << std::endl;
 }
@@ -24,8 +24,7 @@ ScavTrap& ScavTrap::operator=(const ScavTrap& ref)
     std::cout << "Copy assignment operator called for ScavTrap." << std::endl;
     if(this != &ref)
     {
-        ClapTrap::operator=(ref); //Base class verisini base class kopyalar. Derived sadece KENDİ üyelerini kopyalar.
-        // Derived class’a ait üyeler burada kopyalanır (eğer varsa).   
+        ClapTrap::operator=(ref);
     }
     return *this;
 }
@@ -35,11 +34,11 @@ ScavTrap::~ScavTrap()
     std::cout << "Destructor called for ScavTrap." << std::endl;
 }
 
-void ScavTrap::attack(const std::string& target) //Eğer fark sadece mesaj ise, base class logic’ini yeniden yazmamalıyım.
+void ScavTrap::attack(const std::string& target)
 {
-    if(_energy_points > 0 && _hit_points > 0) // base class kullanılarak yazılabilir mi ona bak. ClapTrap::attack(target); ekleyerek
+    if(_energy_points > 0 && _hit_points > 0)
     {
-        std::cout << "ScavTrap " << _name << " attacks " << target << ", causing " << getAttackDamage() << " points of damage"  << std::endl; //attack damage 0 verilmiş onun için de buraya 0 yazılmalı diye düşündüm
+        std::cout << "ScavTrap " << _name << " attacks " << target << ", causing " << getAttackDamage() << " points of damage"  << std::endl;
         _energy_points--;  
     }
     else if (_energy_points == 0 && _hit_points > 0)

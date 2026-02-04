@@ -32,11 +32,11 @@ int main(void)
     std::cout << "Second round" << std::endl;
     st1.attack("ST-Two");
     st2.takeDamage(95);
-    st2.beRepaired(10); // repair olamayacak çünkü hit points'i 0 oldu
+    st2.beRepaired(10);
 
     st2.attack("ST-One");
     st1.takeDamage(60);
-	st1.beRepaired(20); // repair olabilecek çünkü hala hit points'i var
+	st1.beRepaired(20);
 
     std::cout << "End of second round:" << std::endl;
     std::cout << "ST-One: HP=" << st1.getHitPoints() << ", EP=" << st1.getEnergyPoints() << ", AD=" << st1.getAttackDamage() << std::endl;

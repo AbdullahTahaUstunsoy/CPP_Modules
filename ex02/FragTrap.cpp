@@ -24,8 +24,7 @@ FragTrap& FragTrap::operator=(const FragTrap& ref)
     std::cout << "Copy assignment operator called for FragTrap." << std::endl;
     if(this != &ref)
     {
-        ClapTrap::operator=(ref); //Base class verisini base class kopyalar. Derived sadece KENDİ üyelerini kopyalar.
-        // Derived class’a ait üyeler burada kopyalanır (eğer varsa).   
+        ClapTrap::operator=(ref);
     }
     return *this;
 }

@@ -8,14 +8,14 @@ class ClapTrap
     protected:
         std::string _name;
         unsigned int _hit_points;
-        unsigned int _energy_points; //bunlara atama olmayacağı için "_" ile başlatmadım
+        unsigned int _energy_points;
         unsigned int _attack_damage;
     public:
         ClapTrap();
         ClapTrap(std::string name);
-        ClapTrap(const ClapTrap& ref); //const koymama gerek var mı zaten değiştirilemiyor
+        ClapTrap(const ClapTrap& ref);
         ClapTrap& operator=(const ClapTrap& ref);
-        ~ClapTrap(); // virtual gerekli mi buraya ?
+        ~ClapTrap();
         void attack(const std::string& target);
         void takeDamage(unsigned int amount);
         void beRepaired(unsigned int amount);

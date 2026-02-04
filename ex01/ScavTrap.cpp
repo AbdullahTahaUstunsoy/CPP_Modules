@@ -35,9 +35,9 @@ ScavTrap::~ScavTrap()
     std::cout << "Destructor called for ScavTrap." << std::endl;
 }
 
-void ScavTrap::attack(const std::string& target) //Eğer fark sadece mesaj ise, base class logic’ini yeniden yazmamalıyım.
+void ScavTrap::attack(const std::string& target)
 {
-    if(_energy_points > 0 && _hit_points > 0) // base class kullanılarak yazılabilir mi ona bak. ClapTrap::attack(target); ekleyerek
+    if(_energy_points > 0 && _hit_points > 0)
     {
         std::cout << "ScavTrap " << _name << " attacks " << target << ", causing " << getAttackDamage() << " points of damage"  << std::endl; //attack damage 0 verilmiş onun için de buraya 0 yazılmalı diye düşündüm
         _energy_points--;  
