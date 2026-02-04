@@ -13,12 +13,12 @@ ClapTrap::ClapTrap(std::string name) : _name(name), _hit_points(10), _energy_poi
 
 ClapTrap::ClapTrap(const ClapTrap& ref) : _name(ref._name), _hit_points(ref._hit_points), _energy_points(ref._energy_points), _attack_damage(ref._attack_damage)
 {
-    std::cout << "Copy constructor called for ClapTrap." << std::endl; // bu mesajlar kalmalı mı
+    std::cout << "Copy constructor called for ClapTrap." << std::endl;
 }
 
 ClapTrap& ClapTrap::operator=(const ClapTrap& ref)
 {
-    std::cout << "Copy assignment operator called for ClapTrap." << std::endl; //bu mesajlar kalmalı mı 
+    std::cout << "Copy assignment operator called for ClapTrap." << std::endl; 
     if(this != &ref)
     {
         _name = ref._name;
@@ -38,7 +38,7 @@ void ClapTrap::attack(const std::string& target) //Attacking and repairing each 
 {
     if(_energy_points > 0 && _hit_points > 0)
     {
-        std::cout << "ClapTrap " << _name << " attacks " << target << ", causing " << getAttackDamage() << " points of damage"  << std::endl; //attack damage 0 verilmiş onun için de buraya 0 yazılmalı diye düşündüm
+        std::cout << "ClapTrap " << _name << " attacks " << target << ", causing " << getAttackDamage() << " points of damage"  << std::endl;
         _energy_points--;  
     }
     else if (_energy_points == 0 && _hit_points > 0)
@@ -63,9 +63,9 @@ void ClapTrap::takeDamage(unsigned int amount)
     std::cout << "ClapTrap " << _name << " takes damage of " << amount << " points." << std::endl;
 }
 
-void ClapTrap::beRepaired(unsigned int amount) //When ClapTrap repairs itself, it regains <amount> hit points. //Hit points gidince repair olması mantıklı ama bu egzersizde hiçbir zaman hit points in gideceği bir durum yok // ClapTrap can’t do anything if it has no hit points or energy points left.
+void ClapTrap::beRepaired(unsigned int amount) //When ClapTrap repairs itself, it regains <amount> hit points.
 {
-    if(_energy_points > 0 && _hit_points > 0) //Dolayısıyla bu kısım biraz göstermelik //_hit_points'e bakılmalı mı burada
+    if(_energy_points > 0 && _hit_points > 0)
     {
         std::cout << "ClapTrap " << _name << " is repaired " << amount << " point." << std::endl;
         _hit_points+= amount;
@@ -75,6 +75,10 @@ void ClapTrap::beRepaired(unsigned int amount) //When ClapTrap repairs itself, i
         std::cout << "ClapTrap " << _name << "can't repair (no energy or hit points left)" << std::endl;
 }
 
+int ClapTrap::getAttackDamage() const
+{   
+    return _attack_damage;
+}
 
 int ClapTrap::getHitPoints() const
 {
@@ -84,9 +88,4 @@ int ClapTrap::getHitPoints() const
 int ClapTrap::getEnergyPoints() const
 {
     return _energy_points;
-}
-
-int ClapTrap::getAttackDamage() const //şuan sadece bu getter'ı kullandım dolayısıyla diğer getterları silebilirim
-{   
-    return _attack_damage;
 }

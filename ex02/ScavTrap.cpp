@@ -21,7 +21,7 @@ ScavTrap::ScavTrap(const ScavTrap& ref) : ClapTrap(ref) //Base class’a ait üy
 
 ScavTrap& ScavTrap::operator=(const ScavTrap& ref)
 {
-    std::cout << "Copy assignment operator called for ScavTrap." << std::endl; //bu mesajlar kalmalı mı 
+    std::cout << "Copy assignment operator called for ScavTrap." << std::endl;
     if(this != &ref)
     {
         ClapTrap::operator=(ref); //Base class verisini base class kopyalar. Derived sadece KENDİ üyelerini kopyalar.

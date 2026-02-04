@@ -30,7 +30,7 @@ int main()
     ct2.takeDamage(15);
     
     ct2.attack("CT-One");
-    ct1.takeDamage(15); //!!! şuanki durumda c2 nin hit points'i kalmadığı için ct1'a zarar veremez ancak ct1 'in hit points'inin 0landığını göstermek adına bunu çalıştırdım
+    ct1.takeDamage(15); //!!! şuanki durumda c2 nin hit points'i kalmadığı için ct1'a zarar veremez ancak ct1 'in hit points'inin 0'landığını göstermek adına bunu çalıştırdım
 
     std::cout << "End of second round:" << std::endl;
     std::cout << "CT-One: HP=" << ct1.getHitPoints() << ", EP=" << ct1.getEnergyPoints() << ", AD=" << ct1.getAttackDamage() << std::endl;
