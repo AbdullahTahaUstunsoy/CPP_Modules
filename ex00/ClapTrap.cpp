@@ -8,17 +8,17 @@ ClapTrap::ClapTrap()
 
 ClapTrap::ClapTrap(std::string name) : _name(name), _hit_points(10), _energy_points(10), _attack_damage(0)
 {
-    std::cout << "Constructor called for ClapTrap." << _name << std::endl;
+    std::cout << "Constructor called for ClapTrap " << _name << std::endl;
 }
 
 ClapTrap::ClapTrap(const ClapTrap& ref) : _name(ref._name), _hit_points(ref._hit_points), _energy_points(ref._energy_points), _attack_damage(ref._attack_damage)
 {
-    std::cout << "Copy constructor called for ClapTrap." << std::endl;
+    std::cout << "Copy constructor called for ClapTrap " << _name << std::endl;
 }
 
 ClapTrap& ClapTrap::operator=(const ClapTrap& ref)
 {
-    std::cout << "Copy assignment operator called for ClapTrap." << std::endl; 
+    std::cout << "Copy assignment operator called for ClapTrap " << _name << std::endl; 
     if(this != &ref)
     {
         _name = ref._name;
@@ -31,7 +31,7 @@ ClapTrap& ClapTrap::operator=(const ClapTrap& ref)
 
 ClapTrap::~ClapTrap()
 {
-    std::cout << "Destructor called for ClapTrap." << std::endl;
+    std::cout << "Destructor called for ClapTrap " << _name << std::endl;
 }
 
 void ClapTrap::attack(const std::string& target) //Attacking and repairing each cost 1 energy point. //ClapTrap can’t do anything if it has no hit points or energy points left.
