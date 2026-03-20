@@ -60,10 +60,10 @@ void Bureaucrat::decrementGrade()
     ++grade;
 }
 
-void Bureaucrat::signForm(Form& form) const{
+void Bureaucrat::signForm(Form& form) const{ //eğer isSigned zaten true'ysa yazmasına gerek yok başka mesaj basılabilir
     try
     {
-        form.beSigned(*this); //eğer exception throw olursa catch'e girer , exception throw olmazsa isSigned = true olmuş demektir. o zaman sorun yoktur ve alt satıra geçip std::cout << name << " signed " << form.getName() << std::endl; mesajı basılır
+        form.beSigned(*this);
         std::cout << name << " signed " << form.getName() << std::endl;
     }
     catch(const std::exception& e)
