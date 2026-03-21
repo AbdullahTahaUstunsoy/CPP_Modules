@@ -22,6 +22,11 @@ Intern::~Intern()
 {
 }
 
+const char* Intern::NotAForm::what() const throw()
+{
+    return "The form could not be created";
+}
+
 AForm* Intern::createShrubbery(std::string target)
 {
     return new ShrubberyCreationForm(target);
@@ -61,3 +66,4 @@ AForm* Intern::makeForm(std::string formName, std::string target)
     std::cerr << "Form couldn't found" << std::endl;
     return (NULL);
 }
+

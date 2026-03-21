@@ -16,6 +16,12 @@ public:
     AForm* createRobotomy(std::string target);
     AForm* createPardon(std::string target);
     AForm* makeForm(std::string formName, std::string target);
+
+    class NotAForm : public std::exception
+    {
+        public:
+            const char* what() const throw();
+    };
 };
 
 #endif
