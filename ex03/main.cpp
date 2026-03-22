@@ -6,15 +6,14 @@
 #include "Intern.hpp"
 #include <cstdlib>
 #include <ctime>
-//Testi düzenleyebilirim, try catch'te leak riski olabilir
+
 int main()
 {
-    srand(time(NULL)); // Robotomy için rastgelelik
-    std::cout << "-----Test1-----" << std::endl;
+    srand(time(NULL));
+    std::cout << "-----Valid Tests-----" << std::endl;
     try
     {
-        Bureaucrat b1("Taha", 50);
-
+        Bureaucrat b1("Taha", 30);
         std::cout << b1 << std::endl;
 
         Intern intern;
@@ -27,17 +26,14 @@ int main()
         AForm* form3 = intern.makeForm("presidential pardon", "Marvin");
         if(!form3)
             throw Intern::NotAForm();
-        std::cout << "---shrubbery test---"<<std::endl;
+        std::cout << "---Shrubbery Test---"<<std::endl;
         b1.signForm(*form1);
-        (*form1).execute(b1);
         b1.executeForm(*form1);
-        std::cout << "---robotomy test---"<<std::endl;
+        std::cout << "---Robotomy Test---"<<std::endl;
         b1.signForm(*form2);
-        (*form2).execute(b1);
         b1.executeForm(*form2);
-        std::cout << "---presidential test---"<<std::endl;
+        std::cout << "---Presidential Test---"<<std::endl;
         b1.signForm(*form3);
-        (*form3).execute(b1);
         b1.executeForm(*form3);
         delete form1;
         delete form2;
@@ -47,26 +43,38 @@ int main()
     {
         std::cout << e.what() << std::endl;
     }
-    std::cout << "---invalid test---"<<std::endl;
+    std::cout << "-----Invalid Test1-----"<<std::endl;
     try
     {
-        Bureaucrat b2("Taha", 50);
-        std::cout << b2 << std::endl;
+        Bureaucrat b1("Taha", 1);
+        std::cout << b1 << std::endl;
         Intern intern;
         AForm* form = intern.makeForm("non-existent form", "null");
         if(!form)
-            throw Intern::NotAForm();
-        else
-            std::cout << *form << std::endl;
-        b2.signForm(*form);
-        (*form).execute(b2);
-        b2.executeForm(*form);
-
+            throw Intern::NotAForm(); //olmayan form durumu
+        b1.signForm(*form);
+        b1.executeForm(*form);
         delete form;
     }
     catch(std::exception & e)
     {
         std::cout << e.what() << std::endl;
+    }
+
+    try
+    {
+        Bureaucrat b1("Taha", 1);
+        std::cout << b1 << std::endl;
+        Intern intern;
+        AForm* form = intern.makeForm("presidential pardon", "Marvin");
+        if(!form)
+            throw Intern::NotAForm();
+        b1.executeForm(*form); //sign olmadan execute etmeye çalışma durumu
+        delete form;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
     }
     
     return 0;

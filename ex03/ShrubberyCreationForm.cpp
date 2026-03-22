@@ -40,7 +40,7 @@ void ShrubberyCreationForm::doExecution() const
         std::cerr << "Error: Could not create/open file " << fileName << std::endl;
         return;
     }
-    outfile << "       /\\   " << std::endl;
+    outfile << "       .   " << std::endl;
     outfile << "      /*\\   " << std::endl;
     outfile << "     /***\\     " << std::endl;
     outfile << "    /*****\\    " << std::endl;
