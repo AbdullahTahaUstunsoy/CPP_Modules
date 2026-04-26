@@ -4,6 +4,7 @@
 #include <cctype>
 #include <iomanip>
 #include <cmath>
+#include <cstdlib>
 
 ScalarConverter::ScalarConverter() {}
 ScalarConverter::ScalarConverter(const ScalarConverter& other) { (void)other; }
@@ -132,7 +133,7 @@ void ScalarConverter::convert(const std::string& literal)
 {
     int type = detectType(literal);
 
-    if(type == INVALID) //herhangi bir dönüşüm yapılamıyorsa mesela 42.42.42.42 gibi
+    if(type == INVALID)
     {
         std::cout << "char: impossible" << std::endl;
         std::cout << "int: impossible" << std::endl;
@@ -144,7 +145,7 @@ void ScalarConverter::convert(const std::string& literal)
     {
         std::cout << "char: impossible" << std::endl;
         std::cout << "int: impossible" << std::endl;
-        if(literal[literal.length() - 1] == 'f')
+        if (literal == "nanf" || literal == "+inff" || literal == "-inff")
         {
             std::cout << "float: " << literal << std::endl;
             std::cout << "double: " << literal.substr(0, literal.length() - 1) << std::endl;
@@ -177,13 +178,11 @@ void ScalarConverter::convert(const std::string& literal)
 
     if(type == INT)
     {
-        // String'i önce long'a çeviriyoruz ki int sınırlarını kontrol edebilelim
         long temp = std::strtol(literal.c_str(), NULL, 10);
         int i;
         float f;
         double d;
         char c;
-        // Taşma kontrolü (Overflow)
         bool isIntImpossible = (temp > std::numeric_limits<int>::max() || temp < std::numeric_limits<int>::min());
         if(!isIntImpossible)
             i = static_cast<int>(temp);
@@ -224,7 +223,6 @@ void ScalarConverter::convert(const std::string& literal)
         int     i = static_cast<int>(f);
         double  d = static_cast<double>(f);
 
-        //CHAR kontrolü
         if (f < 0 || f > 127 || std::isnan(f) || std::isinf(f))
             std::cout << "char: impossible" << std::endl;
         else
@@ -234,7 +232,6 @@ void ScalarConverter::convert(const std::string& literal)
             else
                 std::cout << "char: Non displayable" << std::endl;
         }
-        //INT Kontrolü
         if (f > std::numeric_limits<int>::max() || f < std::numeric_limits<int>::min() || std::isnan(f) || std::isinf(f))
             std::cout << "int: impossible" << std::endl;
         else
@@ -253,7 +250,6 @@ void ScalarConverter::convert(const std::string& literal)
         int     i = static_cast<int>(d);
         float   f = static_cast<float>(d);
 
-        //CHAR Kontrolü
         if (d < 0 || d > 127 || std::isnan(d) || std::isinf(d))
             std::cout << "char: impossible" << std::endl;
         else
@@ -264,7 +260,6 @@ void ScalarConverter::convert(const std::string& literal)
                 std::cout << "char: Non displayable" << std::endl;
         }
 
-        // INT Kontrolü
         if (d > std::numeric_limits<int>::max() || d < std::numeric_limits<int>::min() || std::isnan(d) || std::isinf(d))
           std::cout << "int: impossible" << std::endl;
         else
