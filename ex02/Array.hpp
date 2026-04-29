@@ -9,7 +9,7 @@ class Array
 {
     private:
         T* _array;
-        unsigned int _size;
+        unsigned int _size; //hem fonksiyon adı hem değişken adı aynı olamaz bu sebeple değişken adını _size yaptım
     public:
         Array(): _array(NULL), _size(0){};
         Array(unsigned int n)
@@ -20,7 +20,7 @@ class Array
 
         Array(const Array& other)
         {
-            _size = other.size();
+            _size = other.size(); //other._size yapamayız çünkü private, eğer farklı türden bir referans verseydik o zaman private olduğu için çalışmazdı
             _array = new T[_size]();
             unsigned int i = 0;
             while(i < _size)
@@ -35,15 +35,21 @@ class Array
             {
                 delete[] _array;
                 _size = other.size();
-                _array = new T[_size]();
-                unsigned int i = 0;
-                while(i < _size)
+                if(_size > 0)
                 {
-                    _array[i] = other._array[i];
-                    i++;
+                    _array = new T[_size]();
+                    unsigned int i = 0;
+                    while(i < _size)
+                    {
+                        _array[i] = other._array[i];
+                        i++;
+                    }
                 }
-            }
+                else
+                    _array = NULL;  
+            }    
             return *this;
+            
         }
 
         T& operator[](unsigned int index)
