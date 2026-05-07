@@ -1,6 +1,5 @@
 #include "Span.hpp"
 #include <algorithm>
-#include <limits>
 
 Span::Span() : _N(0)
 {
@@ -31,7 +30,7 @@ Span::~Span()
 void Span::addNumber(int number)
 {
     if(_numbers.size() >= _N)
-        throw SpanAlreadyFullException();
+        throw Span::ContainerFullException();
     _numbers.push_back(number); //yeni elemanı vektörün sonuna ekler
 }
 
@@ -64,6 +63,21 @@ int Span::longestSpan() const
     return (*maxIt - *minIt);
 }
 
+const std::vector<int>& Span::getNumbers() const
+{
+    return _numbers;
+}
+
+std::ostream& operator<<(std::ostream& os, const Span& span)
+{
+    std::vector<int>::const_iterator it = span.getNumbers().begin();
+    while(it != span.getNumbers().end())
+    {
+        os << *it << " ";
+        it++;
+    }
+    return os;
+}
 
 /*
 Eğer sınıf içindeki orijinal _numbers vektörünü sıralamaya çalışırsak (std::sort), 
