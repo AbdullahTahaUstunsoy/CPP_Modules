@@ -26,8 +26,8 @@ class NoSpanException : public std::exception
 class Span
 {
     private:
-        unsigned int N;
-        std::vector<int> numbers;
+        unsigned int _N;
+        std::vector<int> _numbers;
     public:
         Span();
         Span(unsigned int N);
@@ -42,9 +42,9 @@ class Span
         template <typename Iterator>
         void addRange(Iterator begin, Iterator end)
         {
-            if(std::distance(begin, end) + numbers.size() > N)
+            if(std::distance(begin, end) + _numbers.size() > _N)
                 throw SpanAlreadyFullException();
-            numbers.insert(numbers.end(), begin, end);
+            _numbers.insert(_numbers.end(), begin, end);
         }
 };
 
