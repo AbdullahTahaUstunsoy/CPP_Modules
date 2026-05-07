@@ -2,6 +2,7 @@
 #define SPAN_HPP
 
 #include <exception>
+#include <iterator>
 #include <vector>
 
 class SpanAlreadyFullException : public std::exception
@@ -26,6 +27,7 @@ class Span
 {
     private:
         unsigned int N;
+        std::vector<int> numbers;
     public:
         Span();
         Span(unsigned int N);
@@ -36,6 +38,14 @@ class Span
         void addNumber(int number);
         int shortestSpan() const;
         int longestSpan() const;
+
+        template <typename Iterator>
+        void addRange(Iterator begin, Iterator end)
+        {
+            if(std::distance(begin, end) + numbers.size() > N)
+                throw SpanAlreadyFullException();
+            numbers.insert(numbers.end(), begin, end);
+        }
 };
 
 #endif
