@@ -15,7 +15,7 @@ class BitcoinExchange
         BitcoinExchange& operator=(const BitcoinExchange& other);
         ~BitcoinExchange();
 
-        bool loadDatabase(const std::string& dbPath);
+        bool loadDB(const std::string& dbPath);
         void processInput(const std::string& inputPath);
 };
 
