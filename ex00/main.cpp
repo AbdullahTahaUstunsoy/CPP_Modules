@@ -10,7 +10,6 @@ int main(int argc, char**argv)
     }
     BitcoinExchange btc;
 
-    // 1. Önce iç veritabanını (data.csv) yüklüyoruz
     std::cout << "--- Loading Database ---" << std::endl;
     if (!btc.loadDB("data.csv"))
     {
@@ -19,8 +18,7 @@ int main(int argc, char**argv)
     }
     std::cout << "Database loaded successfully!\n" << std::endl;
 
-    // 2. Kullanıcının verdiği input dosyasını işliyoruz
     std::cout << "--- Processing Input File ---" << std::endl;
-    btc.processInput(argv[1]);    
+    btc.processInput(argv[1]);   
     return (0);
 }

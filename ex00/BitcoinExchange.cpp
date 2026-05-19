@@ -1,7 +1,7 @@
 #include "BitcoinExchange.hpp"
 #include <fstream>
 #include <iostream>
-#include <cstdlib> // std::strtod için
+#include <cstdlib>
 
 BitcoinExchange::BitcoinExchange()
 {
@@ -27,7 +27,7 @@ bool BitcoinExchange::validateDate(const std::string& date)
 {
     if (date.length() != 10)
         return false;
-    for (size_t i = 0; i < date.length(); i++){ //Karakterlerin sayı olup olmadığının kontrolü
+    for (size_t i = 0; i < date.length(); i++){
         if (i == 4 || i == 7)
         {
             if (date[i] != '-')
@@ -77,12 +77,12 @@ bool BitcoinExchange::loadDB(const std::string& dbPath)
         }
         dateStr = line.substr(0, commaPosition);
         if (!validateDate(dateStr)){
-            std::cerr << "Error: bad input => " << dateStr << std::endl;
+            std::cerr << "Error: bad input => " << line << std::endl;
             continue;
         }
         exchangeRateStr = line.substr(commaPosition + 1);
         char *endptr;
-        double exchangeRate = std::strtod(exchangeRateStr.c_str(), &endptr); //2.5abc gibi bir girdi varsa 2.5'i alır ve endptr'yi 'a' karakterine işaret eder. Eğer exchangeRateStr tamamen geçerli bir sayı değilse, endptr hala exchangeRateStr'nin başlangıcını gösterecektir. (2.5abc durumunda a yı, abc durumunda a'yı gösterir) //atof kullansaydım 2.5'i alacaktı ve hiçbir hata mesajı vermeyecekti, bu yüzden strtod kullanmak daha güvenli.
+        double exchangeRate = std::strtod(exchangeRateStr.c_str(), &endptr);
         if (*endptr != '\0' || endptr == exchangeRateStr.c_str()){
             std::cerr << "Error: bad input. => " << line << std::endl;
             continue;
@@ -105,7 +105,6 @@ void BitcoinExchange::processInput(const std::string& inputPath)
         std::cerr << "Error: Could not open input file." << std::endl;
         return;
     }
-    // Process the input file
     std::string line;
     if(!std::getline(inputFile, line))
     {
@@ -130,14 +129,14 @@ void BitcoinExchange::processInput(const std::string& inputPath)
             std::cerr << "Error: bad input => " << line << std::endl;
             continue;
         }
-        dateStr = line.substr(0, line.find('|'));
-        valueStr = line.substr(line.find('|') + 1);
         if(line.length() < 14)
         {
             std::cerr << "Error: bad input => " << line << std::endl;
             continue;
         }
-        if(dateStr.length() != 11 || dateStr[10] != ' ' || dateStr[12] != ' ')
+        dateStr = line.substr(0, line.find('|'));
+        valueStr = line.substr(line.find('|') + 1);
+        if(dateStr.length() != 11 || dateStr[10] != ' ' || valueStr[0] != ' ')
         {
             std::cerr << "Error: bad input => " << line << std::endl;
             continue;
@@ -148,7 +147,6 @@ void BitcoinExchange::processInput(const std::string& inputPath)
             std::cerr << "Error: bad input => " << line << std::endl;
             continue;
         }
-        //value için indeks aralığını bul
         size_t startIndex = 0;
         size_t endIndex = valueStr.length() - 1;
         while (startIndex < valueStr.length() &&  (valueStr[startIndex] == ' ' || valueStr[startIndex] == '\t' || valueStr[startIndex] == '\n')) 
@@ -180,7 +178,7 @@ void BitcoinExchange::processInput(const std::string& inputPath)
         std::map<std::string, double>::iterator it = _db.lower_bound(dateStr);
         if (it != _db.end() && it->first == dateStr)
             std::cout << dateStr << " => " << value << " = " << value * it->second << std::endl;
-        else if (it != _db.begin())
+        else if (it == _db.end() || it != _db.begin())
         {
             --it;
             std::cout << dateStr << " => " << value << " = " << value * it->second << std::endl;
