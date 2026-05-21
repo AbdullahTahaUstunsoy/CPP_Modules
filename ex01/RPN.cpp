@@ -23,18 +23,22 @@ RPN::~RPN()
 {
 }
 
-//  ./RPN "8 9 * 9 - 9 - 9 - 4 - 1 +"
 
-double RPN::calculate(const std::string& expression) //İçerideki kontrolleri fonksiyonlara bölebilirim
+int RPN::tokenControl(const std::string& expression)
 {
-    //Input control
 	std::stringstream ss(expression);
 	std::string token;
-	while(ss >> token) //token kontrolü
+
+	while(ss >> token)
 	{
-		if(token.size() != 1 || (!isdigit(token[0]) && token[0] != '+' && token[0] != '-' && token[0] != '*' && token[0] != '/')) //iç kısmı fonksiyona ayırabilirim
-			throw std::runtime_error("Error");
+		if(token.size() != 1 || (!isdigit(token[0]) && token[0] != '+' && token[0] != '-' && token[0] != '*' && token[0] != '/'))
+			return (1);
 	}
+	return (0);
+}
+
+int RPN::digitAndOpControl(const std::string& expression)
+{
 	int digitCounter = 0;
 	int operatorCounter = 0;
 	for(size_t i = 0; i < expression.size(); i++)
@@ -45,37 +49,57 @@ double RPN::calculate(const std::string& expression) //İçerideki kontrolleri f
 			operatorCounter++;
 	}
 	if(digitCounter != operatorCounter + 1)
-		throw std::runtime_error("Error");
-	std::stack<double> stack;
-	double rightOp, leftOp;
-	double result = 0;
-	std::stringstream ss1(expression);
+		return(1);
+	return (0);
+}
 
-	while(ss1 >> token) // 3 4 5 6 15 + - - * *
+int RPN::doOperation(char op, std::stack<double>& stack)
+{
+	if(stack.size() < 2)
+		return (1);
+	double rightOp = 0.0;
+    double leftOp = 0.0;
+    double result = 0.0;
+	rightOp = stack.top();
+	stack.pop();
+	leftOp = stack.top();
+	stack.pop();
+	if(op == '+')
+		result = leftOp + rightOp;
+	else if(op == '-')
+		result = leftOp - rightOp;
+	else if(op == '*')
+		result = leftOp * rightOp;
+	else if(op == '/')
+	{
+		if(rightOp == 0)
+			return (1);
+		result = leftOp / rightOp;
+	}
+	stack.push(result);
+	return (0);
+}
+
+
+double RPN::calculate(const std::string& expression)
+{
+	if(tokenControl(expression))
+		throw std::runtime_error("Error");
+	if(digitAndOpControl(expression))
+		throw std::runtime_error("Error");
+
+	std::stack<double> stack;
+	std::stringstream ss(expression);
+	std::string token;
+
+	while(ss >> token)
 	{
 		if(isdigit(token[0]))
 			stack.push(token[0] - '0');
 		else if(token[0] == '+' || token[0] == '-' || token[0] == '*' || token[0] == '/')
 		{
-			if(stack.size() < 2) // 1 + 2 gibi bir durumda hata vermesi için
-				throw std::runtime_error("Error");	
-			rightOp = stack.top();
-			stack.pop();
-			leftOp = stack.top();
-			stack.pop();
-			if(token[0] == '+')
-				result = leftOp + rightOp;
-			else if(token[0] == '-')
-				result = leftOp - rightOp;
-			else if(token[0] == '*')
-				result = leftOp * rightOp;
-			else if(token[0] == '/')
-			{
-				if(rightOp == 0)
-					throw std::runtime_error("Error");
-				result = leftOp / rightOp;
-			}
-			stack.push(result);
+			if(doOperation(token[0], stack))
+				throw std::runtime_error("Error");
 		}
 	}
 	if(stack.size() != 1)
