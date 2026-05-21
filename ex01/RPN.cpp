@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stack>
 #include <sstream>
+#include <exception>
 
 RPN::RPN()
 {
@@ -32,10 +33,7 @@ double RPN::calculate(const std::string& expression) //İçerideki kontrolleri f
 	while(ss >> token) //token kontrolü
 	{
 		if(token.size() != 1 || (!isdigit(token[0]) && token[0] != '+' && token[0] != '-' && token[0] != '*' && token[0] != '/')) //iç kısmı fonksiyona ayırabilirim
-		{
-			std::cerr << "Error: Invalid token '" << token << "' in expression." << std::endl;
-			return 1;
-		}
+			throw std::runtime_error("Error");
 	}
 	int digitCounter = 0;
 	int operatorCounter = 0;
@@ -47,24 +45,40 @@ double RPN::calculate(const std::string& expression) //İçerideki kontrolleri f
 			operatorCounter++;
 	}
 	if(digitCounter != operatorCounter + 1)
-	{
-		std::cerr << "Error: Invalid expression. The number of digits must be one more than the number of operators." << std::endl;
-		return 1;
-	}
+		throw std::runtime_error("Error");
 	std::stack<double> stack;
 	double rightOp, leftOp;
-	double result;
-	int flag = 0;
-	ss.clear();
-	while(ss >> token) // 3 4 5 6 7 8 + + - - * *
+	double result = 0;
+	std::stringstream ss1(expression);
+
+	while(ss1 >> token) // 3 4 5 6 15 + - - * *
 	{
 		if(isdigit(token[0]))
 			stack.push(token[0] - '0');
 		else if(token[0] == '+' || token[0] == '-' || token[0] == '*' || token[0] == '/')
 		{
-			
+			if(stack.size() < 2) // 1 + 2 gibi bir durumda hata vermesi için
+				throw std::runtime_error("Error");	
+			rightOp = stack.top();
+			stack.pop();
+			leftOp = stack.top();
+			stack.pop();
+			if(token[0] == '+')
+				result = leftOp + rightOp;
+			else if(token[0] == '-')
+				result = leftOp - rightOp;
+			else if(token[0] == '*')
+				result = leftOp * rightOp;
+			else if(token[0] == '/')
+			{
+				if(rightOp == 0)
+					throw std::runtime_error("Error");
+				result = leftOp / rightOp;
+			}
+			stack.push(result);
 		}
 	}
-
-	return (0);
+	if(stack.size() != 1)
+		throw std::runtime_error("Error");
+	return (stack.top());
 }
