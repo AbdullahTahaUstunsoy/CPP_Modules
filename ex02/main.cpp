@@ -4,7 +4,7 @@
 #include <string>
 #include <climits>
 
-int argControl(int argc, char **argv)
+int argControl(int argc, char **argv) // edge case'leri kontrol edicem
 {
     for(int i = 1; i < argc; i++) //05 , 007 gibi sayılar kontrole eklenmeli mi ? bence gerek yok
     {
@@ -71,5 +71,8 @@ int main(int argc, char **argv)
     if(argControl(argc, argv))
         return (1);
     
+    PmergeMe pmergeme;
+    pmergeme.insertElementsToVector(argc, argv);
+    pmergeme.insertElementsToDeque(argc, argv);
     return (0);
 }
