@@ -84,13 +84,11 @@ int main(int argc, char **argv)
     }
     PmergeMe pmergeme;
     pmergeme.insertElementsToVector(argc, argv);
-    //pmerge.insertElementsToDeque(argc, argv);
+    pmergeme.insertElementsToDeque(argc, argv);
     pmergeme.printBeforeVector();
     pmergeme.fordJhonsonVector();
-    //pmergeme.fordJhonsonDeque();
+    pmergeme.fordJhonsonDeque();
     pmergeme.printAfterVector();
-    double vectorTime = pmergeme.getElapsedTimeUs();
-    //double dequeTime = pmergeme.getElapsedTimeUs()
-    std::cout << "Time to process " << vectorTime << " us" << std::endl; //mesaj düzeltilecek
+    pmergeme.printTimerResults();
     return (0);
 }
