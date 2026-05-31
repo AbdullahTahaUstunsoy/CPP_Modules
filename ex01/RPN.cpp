@@ -48,8 +48,8 @@ int RPN::digitAndOpControl(const std::string& expression)
 		else if(expression[i] == '+' || expression[i] == '-' || expression[i] == '*' || expression[i] == '/')
 			operatorCounter++;
 	}
-	if(digitCounter != operatorCounter + 1)
-		return(1);
+	if(operatorCounter == 0 || digitCounter != operatorCounter + 1)
+    	return (1);
 	return (0);
 }
 
