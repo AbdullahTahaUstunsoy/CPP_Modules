@@ -8,7 +8,7 @@ class BitcoinExchange
 {
     private:
         std::map<std::string, double> _db;
-        bool validateDate(const std::string& date); //Bu fonksiyon tamamen sınıfın kendi iç işleyişiyle (veriyi kontrol etmekle) ilgili bir yardımcı fonksiyon (helper function). Dışarıdan, yani main.cpp içinden doğrudan çağrılmasına gerek yok.
+        bool validateDate(const std::string& date);
     public:
         BitcoinExchange();
         BitcoinExchange(const BitcoinExchange& other);

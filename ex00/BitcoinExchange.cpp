@@ -102,7 +102,7 @@ void BitcoinExchange::processInput(const std::string& inputPath)
     std::ifstream inputFile(inputPath.c_str());
     if(!inputFile.is_open())
     {
-        std::cerr << "Error: Could not open input file." << std::endl;
+        std::cerr << "Error: could not open file." << std::endl;
         return;
     }
     std::string line;
@@ -120,10 +120,12 @@ void BitcoinExchange::processInput(const std::string& inputPath)
     }
     std::string dateStr;
     std::string valueStr;
+    int hasValidData = 0;
     while(std::getline(inputFile, line))
     {
         if(line.empty())
             continue;
+        hasValidData = 1;
         if(line.find('|') == std::string::npos)
         {
             std::cerr << "Error: bad input => " << line << std::endl;
@@ -160,6 +162,11 @@ void BitcoinExchange::processInput(const std::string& inputPath)
 
         char* endptr2;
         double value = std::strtod(valueStr.c_str(), &endptr2);
+        if (value != value) 
+        {
+            std::cerr << "Error: bad input => " << line << std::endl;
+            continue;
+        }
         if (*endptr2 != '\0' || endptr2 == valueStr.c_str())
         {
             std::cerr << "Error: bad input => " << line << std::endl;
@@ -167,7 +174,7 @@ void BitcoinExchange::processInput(const std::string& inputPath)
         }
         if(value < 0)
         {
-            std::cerr << "Error: not a positive number" << std::endl;
+            std::cerr << "Error: not a positive number." << std::endl;
             continue;
         }
         if(value > 1000)
@@ -185,5 +192,10 @@ void BitcoinExchange::processInput(const std::string& inputPath)
         }
         else
             std::cerr << "Error: No exchange rate available for date => " << dateStr << std::endl;
+    }
+    if (!hasValidData)
+    {
+        std::cerr << "Error: No data found in input file." << std::endl;
+        inputFile.close();
     }
 }
